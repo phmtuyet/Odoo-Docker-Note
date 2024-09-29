@@ -1,0 +1,29 @@
+services:
+  # POSTGRES nên chạy nền trực tiếp để có thể sử dụng cho nhiều ứng dụng odoo
+  # db:
+  #   image: postgres
+  #   user: root
+  #   environment:
+  #     - POSTGRES_PASSWORD=odoo
+  #     - POSTGRES_USER=odoo
+  #     - POSTGRES_DB=postgres
+  #   restart: always             # Đảm bảo container sẽ tự động khởi động lại nếu bị dừng đột ngột.
+  #   volumes:                    
+  #       - ./postgresql:/var/lib/postgresql/data       
+
+  odoo16:
+    image: odoo:16
+    user: root
+    # depends_on:
+    #   - db
+    #  network_mode: host         # thêm cái này nếu muốn sử dụng db, port local
+    ports:
+      - "10014:8069"      # Mở cổng 8069 của container Odoo và ánh xạ nó với cổng 10014 trên máy chủ. Bạn sẽ truy cập Odoo thông qua localhost:10014.
+    environment:
+      - HOST=db           # other option: HOST=localhost
+      - USER=odoo
+      - PASSWORD=odoo
+    volumes:      # ánh xạ source code path_source_local:path_source_container
+      - ./odoo:/usr/lib/python3/dist-packages/odoo # sử dụng cái này để ánh xạ addons cho việc debug vào core, nếu không debug vào core thì comment lại để chạy nhanh hơn
+      - ./addons_custom:/mnt/extra-addons        
+      - ./etc:/etc/odoo       # trong đây chứa file config
