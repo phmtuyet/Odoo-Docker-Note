@@ -1,4 +1,4 @@
-1. Kiểm tra xem context docker trên command line có khớp với context docker desktop không.
+1. Kiểm tra xem context docker trên command line có khớp với context docker desktop không. (Xem owr file read_docker.md luu y Linux)
 2. Images cần có: postgres,odoo
 	`docker pull <image_NAME>:<image-version>`
 
